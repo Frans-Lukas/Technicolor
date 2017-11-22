@@ -1,7 +1,7 @@
 var roleFunctions = require('roleFunctions');
 
 var roleUpgrader = {
-
+    source:undefined,
     /** @param {Creep} creep **/
     run: function(creep) {
 
@@ -20,6 +20,9 @@ var roleUpgrader = {
             }
         }
         else {
+            if(!creep.memory.source || creep.memory.source.energy <= 0){
+                creep.memory.source = roleFunctions.findBestResource(creep);
+            }
             roleFunctions.mine(creep);
         }
     }
