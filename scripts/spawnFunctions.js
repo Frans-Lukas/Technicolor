@@ -48,7 +48,13 @@ module.exports = {
             var name = roles[i];
             var numUnits = _.filter(Game.creeps, (creep) => creep.memory.role == name);
             if(name == 'builder'){
-                numUnitsToSpawn = 3;
+                numUnitsToSpawn = 2;
+            }
+            if(name == 'harvester'){
+                numUnitsToSpawn = 2;
+            }
+            if(name == 'upgrader'){
+                numUnitsToSpawn = 2;
             }
             if(numUnits.length < numUnitsToSpawn){
                 var newName = name + Game.time;

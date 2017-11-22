@@ -2,35 +2,31 @@ module.exports = {
 
     mine:function(creep){
         var sources = creep.room.find(FIND_SOURCES_ACTIVE);
-
-        module.exports.getResource(creep, sources[0]);
+        var source = sources[0];
+        if(creep.harvest(source) == ERR_NOT_IN_RANGE){
+            creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+        }
     },
 
     getResource:function(creep, source){
-      if(creep.harvest(source) == ERR_NOT_IN_RANGE){
-          creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
-      }
+        console.log(creep.withdraw(source, RESOURCE_ENERGY));
+        if(creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+            creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+        }
     },
 
     findBestResource:function(creep){
-      var spawn = Game.spawns['Spawn1'];
-
-
-      var extensions = creep.room.find(FIND_MY_STRUCTURES, {
-          filter: {structureType: STRUCTURE_EXTENSION}
-      });
-      var containers = creep.room.find(FIND_MY_STRUCTURES, {
-          filter: {structureType: STRUCTURE_STORAGE}
-      });
-
-
-      if(containers.length > 0){
-        return module.exports.findStorageWithMostEnergy(creep, containers);
-      } else if(extensions.length > 0){
-        return module.exports.findStorageWithMostEnergy(creep, extensions);
-      } else{
-        return spawn;
-      }
+        var source = creep.room.find(FIND_SOURCES_ACTIVE)[0];
+        var soruces = creep.room.find(FIND_MY_STRUCTURES, {
+            filter: function(object){
+                return object.energy > 0 && object.structureType != STRUCTURE_SPAWN;
+            }
+        });
+        if(sources.length > 0 ){
+            return sources[0];
+        } else{
+            return undefined;
+        }
     },
 
     findStorageWithMostEnergy:function(containers){
