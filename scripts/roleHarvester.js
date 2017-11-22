@@ -4,14 +4,14 @@ var roleHarvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-	    if(creep.carry.energy < creep.carryCapacity) {
-            var sources = creep.room.find(FIND_SOURCES_ACTIVE);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffffff'}});
-            }
+	    if(creep.carry.energy <= 0) {
+	        console.log('test');
+	        roleFunctions.mine(creep);
         }
         else {
-            roleFunctions.mine(creep);
+            if(creep.transfer(Game.spawns['Spawn1']) == ERR_NOT_IN_RANGE){
+                creep.moveTO(Game.spawns['Spawn1'], {visualizePathStyle: {stroke: '#ffffff'}});
+            }
         }
 	}
 };

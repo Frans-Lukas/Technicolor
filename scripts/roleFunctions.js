@@ -14,8 +14,16 @@ module.exports = {
 
     findBestResource:function(creep){
       var spawn = Game.spawns['Spawn1'];
-      var extensions = module.exports.roomFindSpecificStructure(STRUCTURE_EXTENSION);
-      var containers = module.exports.roomFindSpecificStructure(STRUCTURE_STORAGE);
+
+
+      var extensions = creep.room.find(FIND_MY_STRUCTURES, {
+          filter: {structureType: STRUCTURE_EXTENSION}
+      });
+      var containers = creep.room.find(FIND_MY_STRUCTURES, {
+          filter: {structureType: STRUCTURE_STORAGE}
+      });
+
+
       if(containers.length > 0){
         return module.exports.findStorageWithMostEnergy(creep, containers);
       } else if(extensions.length > 0){
@@ -23,12 +31,6 @@ module.exports = {
       } else{
         return spawn;
       }
-    },
-
-    roomFindSpecificStructure:function(creep, structure){
-      return creep.room.find(FIND_MY_STRUCTURES, {
-        filter: {structureType: structure}
-      });
     },
 
     findStorageWithMostEnergy:function(containers){
@@ -42,7 +44,7 @@ module.exports = {
             bestIndex = index;
         }
       }
-      return containers.get(bestIndex);
+      return containers[bestIndex];
     }
 
 };
