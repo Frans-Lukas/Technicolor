@@ -1,1 +1,1 @@
-"# Technicolor" 
+# Technicolor
