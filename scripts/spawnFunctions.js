@@ -21,39 +21,8 @@ module.exports = {
 
         module.exports.spawnCreeps(roles, numUnitsToSpawn);
 
-
-        if(Game.spawns['Spawn1'].spawning) {
-            var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
-            Game.spawns['Spawn1'].room.visual.text(
-                '🛠️' + spawningCreep.memory.role,
-                Game.spawns['Spawn1'].pos.x + 1,
-                Game.spawns['Spawn1'].pos.y,
-                {align: 'left', opacity: 0.8});
-        }
-
     },
 
-    spawnCreeps:function(roles, numUnitsToSpawn){
-
-        for(var i = 0; i < roles.length; i++){
-            var name = roles[i];
-            var numUnits = _.filter(Game.creeps, (creep) => creep.memory.role == name);
-            if(name == 'builder'){
-                numUnitsToSpawn = 3;
-            }
-            if(numUnits.length < numUnitsToSpawn){
-                var newName = name + Game.time;
-
-                var body = module.exports.getBodyFromName(name);
-                Game.spawns['Spawn1'].spawnCreep(body, newName,
-                    {memory: {role: name, source:Game.spawns['Spawn1']}});
-                if(Game.spawns['Spawn1'].spawning){
-                    console.log('Spawning new' + name + ': ' + newName);
-                }
-            }
-
-        }
-    },
 
     getBodyFromName:function(name){
         var body;
@@ -71,6 +40,27 @@ module.exports = {
             break;
         }
         return body;
+    },
+
+    spawnCreeps:function(roles, numUnitsToSpawn){
+
+        for(var i = 0; i < roles.length; i++){
+            var name = roles[i];
+            var numUnits = _.filter(Game.creeps, (creep) => creep.memory.role == name);
+            if(name == 'builder'){
+                numUnitsToSpawn = 3;
+            }
+            if(numUnits.length < numUnitsToSpawn){
+                var newName = name + Game.time;
+
+                var body = module.exports.getBodyFromName(name);
+                Game.spawns['Spawn1'].spawnCreep(body, newName,
+                    {memory: {role: name, source: Game.spawns['Spawn1']}});
+                if(Game.spawns['Spawn1'].spawning){
+                    console.log('Spawning new' + name + ': ' + newName);
+                }
+            }
+        }
     },
 
     clearMemory:function(){

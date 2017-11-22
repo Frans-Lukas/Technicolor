@@ -25,7 +25,8 @@ var roleUpgrader = {
             if(!creep.memory.source || creep.memory.source.energy <= 0){
                 creep.memory.source = roleFunctions.findBestResource(creep);
             }
-            roleFunctions.mine(creep);
+            console.log(creep.memory.source.pos.x + ', ' + creep.memory.source.pos.x);
+            roleFunctions.getResource(creep, creep.memory.source);
         }
     }
 };
