@@ -1,15 +1,25 @@
 module.exports = {
 
     mine:function(creep){
-        var sources = creep.room.find(FIND_SOURCES_ACTIVE);
-        var source = sources[0];
+        let source = Game.getObjectById(creep.memory.source);
+        if(!source || source.energy == 0){
+            //console.log(source.id);
+            module.exports.getMineSource(creep);
+        }
+
         if(creep.harvest(source) == ERR_NOT_IN_RANGE){
             creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
         }
     },
 
+    getMineSource:function(creep){
+        let sources = creep.room.find(FIND_SOURCES_ACTIVE);
+        let whatSource = _.random(0,100) % sources.length;
+        creep.memory.source = sources[whatSource].id;
+    },
+
     getResource:function(creep, source){
-        console.log(creep.withdraw(source, RESOURCE_ENERGY));
+       // console.log(creep.withdraw(source, RESOURCE_ENERGY));
         if(creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
             creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
         }

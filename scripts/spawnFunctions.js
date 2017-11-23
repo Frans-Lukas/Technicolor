@@ -14,12 +14,11 @@ module.exports = {
     buildUnits:function(){
         if(Game.time % 20 == 0){
             module.exports.clearMemory();
+            var roles = ['harvester', 'builder', 'upgrader'];
+            var numUnitsToSpawn = 2;
+
+            module.exports.spawnCreeps(roles, numUnitsToSpawn);
         }
-
-        var roles = ['harvester', 'builder', 'upgrader'];
-        var numUnitsToSpawn = 2;
-
-        module.exports.spawnCreeps(roles, numUnitsToSpawn);
 
     },
 
@@ -48,7 +47,7 @@ module.exports = {
             var name = roles[i];
             var numUnits = _.filter(Game.creeps, (creep) => creep.memory.role == name);
             if(name == 'builder'){
-                numUnitsToSpawn = 2;
+                numUnitsToSpawn = 4;
             }
             if(name == 'harvester'){
                 numUnitsToSpawn = 2;
