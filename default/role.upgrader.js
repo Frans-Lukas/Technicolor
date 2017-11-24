@@ -1,12 +1,8 @@
 var roleFunctions = require('roleFunctions');
-var cityFunctions = require('cityFunctions');
 
 var roleUpgrader = {
-    source:undefined,
     /** @param {Creep} creep **/
     run: function(creep) {
-
-        cityFunctions.constructRoad(creep);
 
         if(creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
@@ -23,18 +19,7 @@ var roleUpgrader = {
             }
         }
         else {
-            var targets = creep.room.find(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_EXTENSION ||
-                        structure.structureType == STRUCTURE_CONTAINER) && structure.energy > 0;
-                }
-            });
-            if(targets.length == 0){
-                roleFunctions.mine(creep);
-            } else {
-            //console.log(creep.memory.source.name);
-                roleFunctions.getResource(creep, targets[0]);
-            }
+            roleFunctions.getOptionalSources(creep);
 
         }
     }

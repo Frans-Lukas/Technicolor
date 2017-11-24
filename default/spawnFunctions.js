@@ -12,13 +12,11 @@ module.exports = {
 
 
     buildUnits:function(){
-        if(Game.time % 20 == 0){
-            module.exports.clearMemory();
-            var roles = ['harvester', 'builder', 'upgrader'];
-            var numUnitsToSpawn = 2;
+        module.exports.clearMemory();
+        var roles = ['harvester', 'builder', 'upgrader'];
+        var numUnitsToSpawn = 2;
 
-            module.exports.spawnCreeps(roles, numUnitsToSpawn);
-        }
+        module.exports.spawnCreeps(roles, numUnitsToSpawn);
 
     },
 
@@ -36,6 +34,7 @@ module.exports = {
             body = [WORK,CARRY,MOVE,MOVE];
             break;
           default:
+            body = [WORK,CARRY,MOVE];
             break;
         }
         return body;
@@ -47,12 +46,15 @@ module.exports = {
             var name = roles[i];
             var numUnits = _.filter(Game.creeps, (creep) => creep.memory.role == name);
             if(name == 'builder'){
-                numUnitsToSpawn = 4;
+                numUnitsToSpawn = 3;
             }
             if(name == 'harvester'){
-                numUnitsToSpawn = 2;
+                numUnitsToSpawn = 3;
             }
             if(name == 'upgrader'){
+                numUnitsToSpawn = 2;
+            }
+            if(name == 'repairer'){
                 numUnitsToSpawn = 2;
             }
             if(numUnits.length < numUnitsToSpawn){
@@ -60,7 +62,7 @@ module.exports = {
 
                 var body = module.exports.getBodyFromName(name);
                 Game.spawns['Spawn1'].spawnCreep(body, newName,
-                    {memory: {role: name, source: Game.spawns['Spawn1']}});
+                    {memory: {role: name}});
                 if(Game.spawns['Spawn1'].spawning){
                     console.log('Spawning new' + name + ': ' + newName);
                 }
