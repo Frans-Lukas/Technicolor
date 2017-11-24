@@ -23,9 +23,11 @@ module.exports = {
 
         if(creep.memory.repairing) {
             var structures = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (s) => s.hits < s.hitsMax
+                filter: (s) =>{ return s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL}
             });
             let structure = structures[0];
+
+            console.log('repairing: ' + structure.structureType);
             if (structure != undefined) {
                 // try to repair it, if it is out of range
                 if (creep.repair(structure) == ERR_NOT_IN_RANGE) {

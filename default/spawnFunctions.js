@@ -13,10 +13,12 @@ module.exports = {
 
     buildUnits:function(){
         module.exports.clearMemory();
-        var roles = ['harvester', 'builder', 'upgrader'];
+        var roles = ['harvester', 'builder', 'upgrader', 'repairer'];
         var numUnitsToSpawn = 2;
 
-        module.exports.spawnCreeps(roles, numUnitsToSpawn);
+        if(Game.spawns['Spawn1'].energy >= 300){
+            module.exports.spawnCreeps(roles, numUnitsToSpawn);
+        }
 
     },
 
@@ -41,7 +43,6 @@ module.exports = {
     },
 
     spawnCreeps:function(roles, numUnitsToSpawn){
-
         for(var i = 0; i < roles.length; i++){
             var name = roles[i];
             var numUnits = _.filter(Game.creeps, (creep) => creep.memory.role == name);
@@ -49,10 +50,10 @@ module.exports = {
                 numUnitsToSpawn = 3;
             }
             if(name == 'harvester'){
-                numUnitsToSpawn = 3;
+                numUnitsToSpawn = 4;
             }
             if(name == 'upgrader'){
-                numUnitsToSpawn = 2;
+                numUnitsToSpawn = 1;
             }
             if(name == 'repairer'){
                 numUnitsToSpawn = 2;
@@ -63,9 +64,9 @@ module.exports = {
                 var body = module.exports.getBodyFromName(name);
                 Game.spawns['Spawn1'].spawnCreep(body, newName,
                     {memory: {role: name}});
-                if(Game.spawns['Spawn1'].spawning){
-                    console.log('Spawning new' + name + ': ' + newName);
-                }
+
+                console.log('Spawning new' + name + ': ' + newName);
+                break;
             }
         }
     },
