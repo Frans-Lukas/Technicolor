@@ -26,13 +26,13 @@ var roleBuilder = {
             }
         }
         else {
-            roleFunctions.mine(creep);
+            roleFunctions.getOptionalSources(creep);
         }
     }
-    
-    
-    
-    
+
+
+
+
 };
 
 module.exports = roleBuilder;

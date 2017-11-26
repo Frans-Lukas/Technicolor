@@ -17,7 +17,10 @@ module.exports = {
         var numUnitsToSpawn = 2;
 
         let totalEnergy = module.exports.getTotalEnergy(Game.spawns['Spawn1']);
-        if(totalEnergy >= 300){
+        let harvesterCost = module.exports.getBodyCost(
+            module.exports.getBodyFromName('harvester')
+        );
+        if(totalEnergy >= harvesterCost){
             module.exports.spawnCreeps(roles, numUnitsToSpawn);
         }
 
@@ -35,11 +38,19 @@ module.exports = {
         return totalEnergy;
     },
 
+    getBodyCost:function(body){
+        let cost = 0;
+        for (var i = 0; i < body.length; i++) {
+            cost += BODYPART_COST[body[i]];
+        }
+        return cost;
+    },
+
     getBodyFromName:function(name){
         var body;
         switch(name){
           case 'harvester':
-            body = [WORK,WORK,CARRY,MOVE];
+            body = [WORK,WORK,CARRY,CARRY,MOVE];
             break;
           case 'builder':
             body = [WORK,CARRY,MOVE];
