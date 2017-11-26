@@ -6,8 +6,8 @@ module.exports = {
             //console.log(source.id);
             creep.memory.source = module.exports.getMineSource(creep);
         }
-
         if(creep.harvest(source) == ERR_NOT_IN_RANGE){
+
             creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
         }
     },
@@ -23,6 +23,7 @@ module.exports = {
     },
 
     getOptionalSources:function(creep){
+
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_CONTAINER) && structure.energy > 0;
@@ -35,6 +36,20 @@ module.exports = {
             module.exports.getResource(creep, targets[0]);
         }
 
+
+    },
+
+    getDroppedResource:function(creep){
+        let droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES);
+        if(droppedEnergy.length == 0){
+            return 0;
+        } else{
+            if(creep.pickup(droppedEnergy[0]) == ERR_NOT_IN_RANGE){
+                creep.moveTo(droppedEnergy[0],
+                    {visualizePathStyle: {stroke: '#ffaa00'}});
+            }
+        }
+        return 1;
     },
 
     getResource:function(creep, source){

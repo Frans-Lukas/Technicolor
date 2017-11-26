@@ -8,18 +8,22 @@ var roleBuilder = require('role.builder');
 */
 module.exports = {
     run: function(creep){
-        //Set boolean to harvesting if out of energy. 
+        //Set boolean to harvesting if out of energy.
         if(creep.memory.repairing && creep.carry.energy == 0) {
             creep.memory.repairing = false;
             creep.say('🔄 harvest');
         }
 
+        //Set boolean to repairing if full on energy.
         if(!creep.memory.repairing && creep.carry.energy == creep.carryCapacity) {
             creep.memory.repairing = true;
             creep.say('🚧 repairing');
         }
 
+
+        //Find and repair structures.
         if(creep.memory.repairing) {
+            //Find structures to repair.
             var structures = creep.room.find(FIND_STRUCTURES, {
                 filter: (s) =>{ return s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL}
             });
@@ -35,7 +39,7 @@ module.exports = {
             }
             // if we can't fine one
             else {
-                // look for construction sites
+                // look for construction sites and build!
                 roleBuilder.run(creep);
             }
         } else{

@@ -13,7 +13,11 @@ module.exports = {
 
     buildUnits:function(){
         module.exports.clearMemory();
-        var roles = ['harvester', 'builder', 'upgrader', 'repairer'];
+        var roles = ['harvester',
+                    'transporter',
+                    'builder',
+                    'upgrader',
+                    'repairer'];
         var numUnitsToSpawn = 2;
 
         let totalEnergy = module.exports.getTotalEnergy(Game.spawns['Spawn1']);
@@ -50,13 +54,16 @@ module.exports = {
         var body;
         switch(name){
           case 'harvester':
-            body = [WORK,WORK,CARRY,CARRY,MOVE];
+            body = [WORK,WORK,WORK,MOVE];
             break;
           case 'builder':
             body = [WORK,CARRY,MOVE];
             break;
           case 'upgrader':
             body = [WORK,CARRY,MOVE,MOVE];
+            break;
+          case 'transporter':
+            body = [CARRY,CARRY,CARRY,MOVE,MOVE];
             break;
           default:
             body = [WORK,CARRY,MOVE];
@@ -73,13 +80,16 @@ module.exports = {
                 numUnitsToSpawn = 3;
             }
             if(name == 'harvester'){
-                numUnitsToSpawn = 4;
+                numUnitsToSpawn = 2;
             }
             if(name == 'upgrader'){
                 numUnitsToSpawn = 1;
             }
             if(name == 'repairer'){
                 numUnitsToSpawn = 2;
+            }
+            if(name === 'transporter'){
+                numUnitsToSpawn = 4;
             }
             if(numUnits.length < numUnitsToSpawn){
                 var newName = name + Game.time;
