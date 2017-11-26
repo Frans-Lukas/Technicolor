@@ -1,5 +1,9 @@
 var roleFunctions = require('roleFunctions');
 
+/*
+* Upgrader role module used to upgrade controller.
+*
+*/
 var roleUpgrader = {
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -20,7 +24,6 @@ var roleUpgrader = {
         }
         else {
             roleFunctions.getOptionalSources(creep);
-
         }
     }
 };

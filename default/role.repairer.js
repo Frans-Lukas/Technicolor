@@ -1,16 +1,14 @@
 var roleFunctions = require('roleFunctions');
 var roleBuilder = require('role.builder');
-/*
- * Module code goes here. Use 'module.exports' to export things:
- * module.exports.thing = 'a thing';
- *
- * You can import it from another modules like this:
- * var mod = require('role.repairer');
- * mod.thing == 'a thing'; // true
- */
 
+/*
+* Role repairer module for finding weak structures that needs repairing.
+* As of now it only repairs structures not a wall.
+*
+*/
 module.exports = {
     run: function(creep){
+        //Set boolean to harvesting if out of energy. 
         if(creep.memory.repairing && creep.carry.energy == 0) {
             creep.memory.repairing = false;
             creep.say('🔄 harvest');
@@ -22,12 +20,12 @@ module.exports = {
         }
 
         if(creep.memory.repairing) {
-            var structures = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+            var structures = creep.room.find(FIND_STRUCTURES, {
                 filter: (s) =>{ return s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL}
             });
             let structure = structures[0];
 
-            console.log('repairing: ' + structure.structureType);
+            //console.log('repairing: ' + structure.structureType);
             if (structure != undefined) {
                 // try to repair it, if it is out of range
                 if (creep.repair(structure) == ERR_NOT_IN_RANGE) {
