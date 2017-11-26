@@ -16,12 +16,24 @@ module.exports = {
         var roles = ['harvester', 'builder', 'upgrader', 'repairer'];
         var numUnitsToSpawn = 2;
 
-        if(Game.spawns['Spawn1'].energy >= 300){
+        let totalEnergy = module.exports.getTotalEnergy(Game.spawns['Spawn1']);
+        if(totalEnergy >= 300){
             module.exports.spawnCreeps(roles, numUnitsToSpawn);
         }
 
     },
 
+    getTotalEnergy:function(spawn){
+        let extensions = spawn.room.find(FIND_STRUCTURES, {
+            filter: (s) =>{ return s.structureType === STRUCTURE_EXTENSION }
+        });
+        let totalEnergy = 0;
+        for(let i = 0; i < extensions.length; i++){
+            totalEnergy += extensions[i].energy;
+        }
+        totalEnergy += spawn.energy;
+        return totalEnergy;
+    },
 
     getBodyFromName:function(name){
         var body;
