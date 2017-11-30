@@ -15,8 +15,9 @@ module.exports.loop = function () {
     if(Game.time % 20 == 0){
         spawnFunctions.buildUnits();
     }
-    if(Game.time % 5 == 0){
+    if(Game.time % 500 == 0){
         cityFunctions.constructExtensions(Game.spawns['Spawn1']);
+        cityFunctions.constructContainers(Game.spawns['Spawn1']);
     }
 
 

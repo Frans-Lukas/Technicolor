@@ -55,5 +55,21 @@ module.exports = {
                 }
             }
         }
+    },
+
+    constructContainers:function(spawn){
+        let pathToController = spawn.room.findPath(spawn.pos,
+                                        spawn.room.controller.pos);
+        for(let i = 0; i < pathToController.length; i++){
+            let errCode = spawn.room.createConstructionSite(
+                                            pathToController[i].x,
+                                            pathToController[i].y,
+                                            STRUCTURE_CONTAINER);
+            if(errCode === ERR_FULL ||
+                errCode === ERR_RCL_NOT_ENOUGH){
+
+                break;
+            }
+        }
     }
 };
