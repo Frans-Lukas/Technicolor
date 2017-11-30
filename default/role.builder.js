@@ -16,7 +16,27 @@ var roleBuilder = {
         }
 
         if(creep.memory.building) {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+            var targets = [];
+
+            //Prioritize order, first is highest priority.
+            let structureTypes = [STRUCTURE_SPAWN,
+                            STRUCTURE_EXTENSION,
+                            STRUCTURE_CONTAINER];
+            for(let i = 0; i < structureTypes.length; i++){
+                if(targets.length == 0){
+                    targets = module.exports.getConstructionSiteByStructureType(
+                                                        structureTypes[i],
+                                                        creep);
+                } else{
+                    break;
+                }
+            }
+
+            //If no other construction site was found, find rest.
+            if(targets.length == 0){
+                targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+            }
+
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
@@ -28,6 +48,14 @@ var roleBuilder = {
         else {
             roleFunctions.getOptionalSources(creep);
         }
+    },
+
+    getConstructionSiteByStructureType:function(type, creep){
+        return targets = creep.room.find(FIND_CONSTRUCTION_SITES, {
+            filter: (site) => {
+                return site.structureType == type
+            }
+        });
     }
 
 

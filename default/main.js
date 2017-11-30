@@ -15,6 +15,9 @@ module.exports.loop = function () {
     if(Game.time % 20 == 0){
         spawnFunctions.buildUnits();
     }
+    if(Game.time % 500 == 0){
+        cityFunctions.constructRoad(Game.creeps[0]);
+    }
 
 
     for(var name in Game.creeps) {
@@ -25,9 +28,6 @@ module.exports.loop = function () {
             creep.memory.role = role;
         }
 
-        if(Game.time % 500 == 0){
-            cityFunctions.constructRoad(creep);
-        }
         if(creep.memory.role === 'harvester') {
             roleHarvester.run(creep);
         } else if(creep.memory.role === 'upgrader') {
@@ -39,6 +39,6 @@ module.exports.loop = function () {
         } else if(creep.memory.role === 'transporter'){
             roleTransporter.run(creep);
         }
-        roleFunctions.buildRoad(creep);
+        //roleFunctions.buildRoad(creep);
     }
 }

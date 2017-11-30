@@ -24,7 +24,7 @@ module.exports = {
         let harvesterCost = module.exports.getBodyCost(
             module.exports.getBodyFromName('harvester')
         );
-        console.log(harvesterCost + "," + totalEnergy);
+        
         if(totalEnergy >= harvesterCost){
             module.exports.spawnCreeps(roles, numUnitsToSpawn);
         }
@@ -61,7 +61,7 @@ module.exports = {
             body = [WORK,CARRY,MOVE];
             break;
           case 'upgrader':
-            body = [CARRY,CARRY,CARRY,MOVE,MOVE];
+            body = [WORK,WORK,CARRY,MOVE,MOVE];
             break;
           case 'transporter':
             body = [CARRY,CARRY,CARRY,MOVE,MOVE];
