@@ -16,30 +16,15 @@ var roleBuilder = {
         }
 
         if(creep.memory.building) {
-            var targets = [];
-
-            //Prioritize order, first is highest priority.
-            let structureTypes = [STRUCTURE_SPAWN,
-                            STRUCTURE_EXTENSION,
-                            STRUCTURE_CONTAINER];
-            for(let i = 0; i < structureTypes.length; i++){
-                if(targets.length == 0){
-                    targets = module.exports.getConstructionSiteByStructureType(
-                                                        structureTypes[i],
-                                                        creep);
-                } else{
-                    break;
-                }
+            //let target = Game.getObjectById()
+            if(!creep.memory.targetID || !Game.getObjectById(creep.memory.targetID)){
+                let targets = module.exports.getConstructionSites(creep);
+                creep.memory.targetID = targets[0].id;
             }
-
-            //If no other construction site was found, find rest.
-            if(targets.length == 0){
-                targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            }
-
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+            let target = Game.getObjectById(creep.memory.targetID);
+            if(target) {
+                if(creep.build(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             } else{
                 roleHarvester.run(creep);
@@ -48,6 +33,30 @@ var roleBuilder = {
         else {
             roleFunctions.getOptionalSources(creep);
         }
+    },
+
+    getConstructionSites:function(creep){
+        //Prioritize order, first is highest priority.
+        var targets = [];
+
+        let structureTypes = [STRUCTURE_SPAWN,
+                        STRUCTURE_EXTENSION,
+                        STRUCTURE_CONTAINER];
+        for(let i = 0; i < structureTypes.length; i++){
+            if(targets.length == 0){
+                targets = module.exports.getConstructionSiteByStructureType(
+                                                    structureTypes[i],
+                                                    creep);
+            } else{
+                break;
+            }
+        }
+
+        //If no other construction site was found, find rest.
+        if(targets.length == 0){
+            targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+        }
+        return targets;
     },
 
     getConstructionSiteByStructureType:function(type, creep){
