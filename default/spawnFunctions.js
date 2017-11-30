@@ -54,7 +54,7 @@ module.exports = {
         var body;
         switch(name){
           case 'harvester':
-            body = [WORK,WORK,MOVE];
+            body = [WORK,WORK,WORK,MOVE];
             break;
           case 'builder':
             body = [WORK,CARRY,MOVE];
@@ -111,6 +111,10 @@ module.exports = {
                 console.log('Clearing non-existing creep memory:', name);
             }
         }
+    },
+
+    updateCreeps:function(){
+        //TODO: upgrade creeps that have low body stats.
     }
 
 };
