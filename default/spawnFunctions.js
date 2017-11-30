@@ -24,6 +24,7 @@ module.exports = {
         let harvesterCost = module.exports.getBodyCost(
             module.exports.getBodyFromName('harvester')
         );
+        console.log(harvesterCost + "," + totalEnergy);
         if(totalEnergy >= harvesterCost){
             module.exports.spawnCreeps(roles, numUnitsToSpawn);
         }
@@ -60,7 +61,7 @@ module.exports = {
             body = [WORK,CARRY,MOVE];
             break;
           case 'upgrader':
-            body = [WORK,CARRY,MOVE,MOVE];
+            body = [CARRY,CARRY,CARRY,MOVE,MOVE];
             break;
           case 'transporter':
             body = [CARRY,CARRY,CARRY,MOVE,MOVE];
@@ -83,7 +84,7 @@ module.exports = {
                 numUnitsToSpawn = 2;
             }
             if(name == 'upgrader'){
-                numUnitsToSpawn = 1;
+                numUnitsToSpawn = 3;
             }
             if(name == 'repairer'){
                 numUnitsToSpawn = 2;
@@ -97,7 +98,6 @@ module.exports = {
                 var body = module.exports.getBodyFromName(name);
                 Game.spawns['Spawn1'].spawnCreep(body, newName,
                     {memory: {role: name}});
-
                 console.log('Spawning new' + name + ': ' + newName);
                 break;
             }

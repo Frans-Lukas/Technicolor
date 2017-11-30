@@ -3,8 +3,11 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleTransporter = require('role.transporter');
+
 var spawnFunctions = require('spawnFunctions');
 var cityFunctions = require('cityFunctions');
+var roleFunctions = require('roleFunctions');
+
 var roleError = false;
 
 module.exports.loop = function () {
@@ -36,5 +39,6 @@ module.exports.loop = function () {
         } else if(creep.memory.role === 'transporter'){
             roleTransporter.run(creep);
         }
+        roleFunctions.buildRoad(creep);
     }
 }

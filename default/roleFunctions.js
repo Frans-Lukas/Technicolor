@@ -22,14 +22,22 @@ module.exports = {
         return sources[whatSource].id;
     },
 
+    numCreepsAroundTarget:function(target){
+        for(let i = 0; i < 3; i++){
+            for(let j = 0; j < 3; j++){
+
+            }
+        }
+    },
+
     getOptionalSources:function(creep){
 
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.structureType == STRUCTURE_CONTAINER) && structure.energy > 0;
+                return (structure.structureType == STRUCTURE_CONTAINER) &&
+                structure.store[RESOURCE_ENERGY] > 0;
             }
         });
-
         if(targets.length == 0){
             module.exports.mine(creep);
         } else {
@@ -40,22 +48,38 @@ module.exports = {
     },
 
     getDroppedResource:function(creep){
+        if(!creep.memory.droppedEnergyID){
+            module.exports.giveDroppedEnergyIDToCreep(creep);
+        } else{
+            var resource = Game.getObjectById(creep.memory.droppedEnergyID);
+            if(!resource || resource.energy == 0){
+                module.exports.giveDroppedEnergyIDToCreep(creep);
+            }
+        }
+        if(creep.pickup(resource) == ERR_NOT_IN_RANGE){
+            creep.moveTo(resource,
+                {visualizePathStyle: {stroke: '#ffaa00'}});
+        }
+
+        return 1;
+    },
+
+    giveDroppedEnergyIDToCreep:function(creep){
         let droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES);
         if(droppedEnergy.length == 0){
             return 0;
-        } else{
-            if(creep.pickup(droppedEnergy[0]) == ERR_NOT_IN_RANGE){
-                creep.moveTo(droppedEnergy[0],
-                    {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
         }
-        return 1;
+        creep.memory.droppedEnergyID = droppedEnergy[0].id;
     },
 
     getResource:function(creep, source){
         if(creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
             creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
         }
+    },
+
+    buildRoad:function(creep){
+        creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
     }
 
 };

@@ -25,7 +25,8 @@ module.exports = {
         if(creep.memory.repairing) {
             //Find structures to repair.
             var structures = creep.room.find(FIND_STRUCTURES, {
-                filter: (s) =>{ return s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL}
+                filter: (s) =>{ return s.hits < s.hitsMax &&
+                    s.structureType != STRUCTURE_WALL }
             });
             let structure = structures[0];
 
