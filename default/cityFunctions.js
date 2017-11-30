@@ -35,7 +35,25 @@ module.exports = {
                 }
             }
         }
+    },
 
+    constructExtensions:function(spawn){
+        let width = 3;
+        let height = 3;
+        for(let k = 0; k < 12; k++){
+            for(let i = k; i < width; i++){
+                for(let j = k; j < height; j++){
+                    let errCode = spawn.room.createConstructionSite(
+                                                    width,
+                                                    height,
+                                                    STRUCTURE_EXTENSION);
+                    if(errCode === ERR_FULL ||
+                        errCode === ERR_RCL_NOT_ENOUGH){
 
+                        break;
+                    }
+                }
+            }
+        }
     }
 };

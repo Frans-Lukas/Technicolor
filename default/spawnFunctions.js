@@ -20,11 +20,11 @@ module.exports = {
                     'repairer'];
         var numUnitsToSpawn = 2;
 
-        let totalEnergy = module.exports.getTotalEnergy(Game.spawns['Spawn1']);
+        let totalEnergy = Room.energyAvailable;
         let harvesterCost = module.exports.getBodyCost(
             module.exports.getBodyFromName('harvester')
         );
-        
+
         if(totalEnergy >= harvesterCost){
             module.exports.spawnCreeps(roles, numUnitsToSpawn);
         }
