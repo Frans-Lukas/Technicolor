@@ -20,11 +20,10 @@ module.exports = {
                     'repairer'];
         var numUnitsToSpawn = 2;
 
-        let totalEnergy = Room.energyAvailable;
+        let totalEnergy = Game.spawns['Spawn1'].room.energyAvailable;
         let harvesterCost = module.exports.getBodyCost(
             module.exports.getBodyFromName('harvester')
         );
-
         if(totalEnergy >= harvesterCost){
             module.exports.spawnCreeps(roles, numUnitsToSpawn);
         }
@@ -55,7 +54,7 @@ module.exports = {
         var body;
         switch(name){
           case 'harvester':
-            body = [WORK,WORK,WORK,MOVE];
+            body = [WORK,WORK,MOVE];
             break;
           case 'builder':
             body = [WORK,CARRY,MOVE];
