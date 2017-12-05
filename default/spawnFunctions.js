@@ -54,7 +54,7 @@ module.exports = {
         var body;
         switch(name){
           case 'harvester':
-            body = [WORK,WORK,WORK,MOVE];
+            body = [WORK,WORK,WORK,WORK,MOVE];
             break;
           case 'builder':
             body = [WORK,CARRY,MOVE];

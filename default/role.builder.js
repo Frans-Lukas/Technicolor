@@ -1,5 +1,5 @@
 var roleFunctions = require('roleFunctions');
-var roleHarvester = require('role.harvester');
+var roleHarvester = require('role.upgrader');
 
 var roleBuilder = {
 
@@ -8,18 +8,20 @@ var roleBuilder = {
 
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
-            creep.say('🔄 harvest');
+            //creep.say('🔄 harvest');
         }
         if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
             creep.memory.building = true;
-            creep.say('🚧 build');
+            //creep.say('🚧 build');
         }
 
         if(creep.memory.building) {
             //let target = Game.getObjectById()
             if(!creep.memory.targetID || !Game.getObjectById(creep.memory.targetID)){
                 let targets = module.exports.getConstructionSites(creep);
-                creep.memory.targetID = targets[0].id;
+                if(targets.length > 0){
+                    creep.memory.targetID = targets[0].id;
+                }
             }
             let target = Game.getObjectById(creep.memory.targetID);
             if(target) {
