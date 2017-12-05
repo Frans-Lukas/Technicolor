@@ -43,9 +43,11 @@ module.exports = {
         for(let k = 0; k < 12; k++){
             for(let i = k; i < width; i++){
                 for(let j = k; j < height; j++){
+                    let x = spawn.pos.x + i;
+                    let y = spawn.pos.y + j;
                     let errCode = spawn.room.createConstructionSite(
-                                                    width,
-                                                    height,
+                                                    x,
+                                                    y,
                                                     STRUCTURE_EXTENSION);
                     if(errCode === ERR_FULL ||
                         errCode === ERR_RCL_NOT_ENOUGH){
@@ -65,6 +67,7 @@ module.exports = {
                                             pathToController[i].x,
                                             pathToController[i].y,
                                             STRUCTURE_CONTAINER);
+
             if(errCode === ERR_FULL ||
                 errCode === ERR_RCL_NOT_ENOUGH){
 

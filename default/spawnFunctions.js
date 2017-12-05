@@ -67,7 +67,7 @@ module.exports = {
             body = [WORK,CARRY,MOVE];
             break;
           case 'upgrader':
-            maxResource = maxResource - 150;
+            maxResource = maxResource - 200;
             body = [WORK, CARRY, MOVE];
             while(maxResource >= 150){
                 body.push(WORK);
@@ -99,7 +99,7 @@ module.exports = {
                 numUnitsToSpawn = 3;
             }
             if(name == 'harvester'){
-                numUnitsToSpawn = 2;
+                numUnitsToSpawn = 1;
             }
             if(name == 'upgrader'){
                 numUnitsToSpawn = 3;
@@ -134,6 +134,15 @@ module.exports = {
 
     updateCreeps:function(){
         //TODO: upgrade creeps that have low body stats.
+    },
+
+    //TODO: Give unique source to every harvester.
+    saveSources:function(spawn){
+        let sources = spawn.room.find(FIND_SOURCES_ACTIVE);
+        spawn.memory.source1 = sources[0].id;
+        spawn.memory.source2 = sources[0].id;
+        spawn.memory.source1Taken = false;
+        spawn.memory.source2Taken = false;
     }
 
 };
