@@ -23,7 +23,7 @@ module.exports = {
         let totalEnergy = Game.spawns['Spawn1'].room.energyAvailable;
 
         let body = module.exports.getBodyFromName('harvester',
-                            Game.spawns['Spawn1'].room.energyAvailable);
+                            Game.spawns['Spawn1'].room.energyCapacity);
 
         let harvesterCost = module.exports.getBodyCost( body );
         if(totalEnergy >= harvesterCost){
@@ -111,9 +111,9 @@ module.exports = {
                 numUnitsToSpawn = 4;
             }
             if(numUnits.length < numUnitsToSpawn){
-                var newName = name + Game.time;
+                var newName = name + Game.time % 100;
                 let body = module.exports.getBodyFromName(name,
-                                   Game.spawns['Spawn1'].room.energyAvailable);
+                                   Game.spawns['Spawn1'].room.energyCapacity);
                 Game.spawns['Spawn1'].spawnCreep(body, newName,
                     {memory: {role: name}});
                 console.log('Spawning new' + name + ': ' + newName);
