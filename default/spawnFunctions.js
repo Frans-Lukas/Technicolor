@@ -21,9 +21,11 @@ module.exports = {
         var numUnitsToSpawn = 2;
 
         let totalEnergy = Game.spawns['Spawn1'].room.energyAvailable;
-        let harvesterCost = module.exports.getBodyCost(
-            module.exports.getBodyFromName('harvester')
-        );
+
+        let body = module.exports.getBodyFromName('harvester',
+                            Game.spawns['Spawn1'].room.energyAvailable);
+
+        let harvesterCost = module.exports.getBodyCost( body );
         if(totalEnergy >= harvesterCost){
             module.exports.spawnCreeps(roles, numUnitsToSpawn);
         }
@@ -50,20 +52,37 @@ module.exports = {
         return cost;
     },
 
-    getBodyFromName:function(name){
-        var body;
+    getBodyFromName:function(name, maxResource){
+        var body = [];
         switch(name){
           case 'harvester':
-            body = [WORK,WORK,WORK,WORK,MOVE];
+            maxResource = maxResource - 50;
+            body.push(MOVE);
+            while(maxResource >= 100){
+                body.push(WORK);
+                maxResource = maxResource - 100;
+            }
             break;
           case 'builder':
             body = [WORK,CARRY,MOVE];
             break;
           case 'upgrader':
-            body = [WORK,WORK,CARRY,MOVE,MOVE];
+            maxResource = maxResource - 150;
+            body = [WORK, CARRY, MOVE];
+            while(maxResource >= 150){
+                body.push(WORK);
+                body.push(CARRY);
+                maxResource = maxResource - 150;
+            }
+
             break;
           case 'transporter':
-            body = [CARRY,CARRY,CARRY,MOVE,MOVE];
+            maxResource = maxResource - 50;
+            body = [MOVE];
+            while(maxResource >= 50){
+                body.push(CARRY);
+                maxResource = maxResource - 50;
+            }
             break;
           default:
             body = [WORK,CARRY,MOVE];
@@ -93,8 +112,8 @@ module.exports = {
             }
             if(numUnits.length < numUnitsToSpawn){
                 var newName = name + Game.time;
-
-                var body = module.exports.getBodyFromName(name);
+                let body = module.exports.getBodyFromName(name,
+                                   Game.spawns['Spawn1'].room.energyAvailable);
                 Game.spawns['Spawn1'].spawnCreep(body, newName,
                     {memory: {role: name}});
                 console.log('Spawning new' + name + ': ' + newName);
